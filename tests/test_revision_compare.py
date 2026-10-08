@@ -222,15 +222,15 @@ class RevisionCliTests(unittest.TestCase):
             self.assertNotIn("Traceback", run.stderr)
 
     def test_bad_input_still_uses_read_error_prefix(self):
-        missing = Path(tempfile.gettempdir()) / "docinvariant-unlikely-nonexistent-input-709431.md"
-        self.assertFalse(missing.exists())
-        run = subprocess.run(
-            [sys.executable, str(SCRIPT), str(missing), "--mode", "procedure"],
-            capture_output=True, text=True,
-        )
-        self.assertEqual(run.returncode, 1)
-        self.assertIn("Cannot read input:", run.stderr)
-        self.assertNotIn("Comparison failed:", run.stderr)
+        with tempfile.TemporaryDirectory() as folder:
+            missing = Path(folder) / "nonexistent.md"
+            run = subprocess.run(
+                [sys.executable, str(SCRIPT), str(missing), "--mode", "procedure"],
+                capture_output=True, text=True,
+            )
+            self.assertEqual(run.returncode, 1)
+            self.assertIn("Cannot read input:", run.stderr)
+            self.assertNotIn("Comparison failed:", run.stderr)
 
     def test_blocks_requires_second_input(self):
         run = subprocess.run([sys.executable, str(SCRIPT), "unused.md", "--mode", "procedure", "--compare-method", "blocks"], capture_output=True, text=True)
