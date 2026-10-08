@@ -35,7 +35,12 @@ def _inline_key(children: list) -> tuple:
 
 
 def _blocks(source: str, parser, path: str) -> list[dict]:
-    lines = source.splitlines(keepends=True)
+    # Markdown parser line maps count CR/LF, not Unicode separators such as
+    # U+2028 and U+0085. str.splitlines() treats those as additional lines,
+    # shifting evidence spans onto unrelated source text.
+    lines = re.findall(r"[^\\r\\n]*(?:\\r\\n|\\r|\\n|$)", source)
+    if lines and not lines[-1]:
+        lines.pop()
     tokens = parser.parse(source)
     blocks, stack, covered = [], [], set()
 
