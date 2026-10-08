@@ -209,8 +209,11 @@ def main(argv: list[str] | None = None) -> int:
                 report["comparison"] = compare_documents(original, source, str(args.compare), str(args.file))
             else:
                 report["comparison"] = compare(original, source)
-    except (OSError, UnicodeError, RuntimeError, ValueError) as e:
+    except (OSError, UnicodeError) as e:
         print(f"Cannot read input: {e}", file=sys.stderr)
+        return 1
+    except (RuntimeError, ValueError) as e:
+        print(f"Comparison failed: {e}", file=sys.stderr)
         return 1
     if args.format == "json":
         print(json.dumps(report, indent=2, ensure_ascii=False))
