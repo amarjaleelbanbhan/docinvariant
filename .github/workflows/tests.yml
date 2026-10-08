@@ -29,5 +29,7 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Reproduce located comparison probes
         run: python experiments/located_compare/run.py --output /tmp/located-comparison.json
+      - name: Reproduce PR review regression probes
+        run: python experiments/located_compare/run.py --fixtures experiments/located_compare/review_fixtures.json --previous-block-ref 496662174ee4811cefc310b31845f96dd652fa89 --output /tmp/review-comparison.json
       - name: CLI smoke test
         run: python scripts/ste_audit.py examples/sample_procedure.md --mode procedure --format json

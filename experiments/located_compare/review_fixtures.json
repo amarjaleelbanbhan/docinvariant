@@ -1,0 +1,65 @@
+{
+  "provenance": "Targeted engineering regressions from PR #8 review. Intended labels are model-assisted, not independent human gold. Renumbering control preserves rendering, assuming no external authored-number references.",
+  "cases": [
+    {
+      "id": "authored_later_marker",
+      "intent": "changed",
+      "original": "1. Restart service.\n2. Delete backup.\n",
+      "proposed": "1. Restart service.\n9. Delete backup.\n"
+    },
+    {
+      "id": "nested_marker",
+      "intent": "changed",
+      "original": "> 1. Prepare.\n>    1. Restart service.\n>    2. Delete backup.\n",
+      "proposed": "> 1. Prepare.\n>    1. Restart service.\n>    9. Delete backup.\n"
+    },
+    {
+      "id": "list_start",
+      "intent": "changed",
+      "original": "2. Restart service.\n3. Delete backup.\n",
+      "proposed": "3. Restart service.\n4. Delete backup.\n"
+    },
+    {
+      "id": "duplicate_deletion",
+      "intent": "changed",
+      "original": "Verify the backup.\n\nVerify the backup.\n\nDelete the old backup.\n",
+      "proposed": "Verify the backup.\n\nDelete the old backup.\n"
+    },
+    {
+      "id": "duplicate_insertion",
+      "intent": "changed",
+      "original": "Verify the backup.",
+      "proposed": "Verify the backup.\n\nVerify **the backup**."
+    },
+    {
+      "id": "unique_deletion",
+      "intent": "changed",
+      "original": "Verify the backup.\n\nDelete the old backup.",
+      "proposed": "Verify the backup."
+    },
+    {
+      "id": "render_equivalent_renumbering",
+      "intent": "preserved",
+      "original": "1. Restart service.\n1. Delete backup.\n",
+      "proposed": "1. Restart service.\n2. Delete backup.\n"
+    },
+    {
+      "id": "ordered_delimiter_spacing",
+      "intent": "preserved",
+      "original": "1. Restart service.\n2. Delete backup.\n",
+      "proposed": "1)  Restart service.\n2)  Delete backup.\n"
+    },
+    {
+      "id": "unchanged_duplicates",
+      "intent": "preserved",
+      "original": "Verify the backup.\n\nVerify the backup.",
+      "proposed": "Verify the backup.\n\nVerify the backup."
+    },
+    {
+      "id": "warning_presentation",
+      "intent": "preserved",
+      "original": "**WARNING:** Keep clear.\nDo not touch the blade.",
+      "proposed": "WARNING: Keep clear.  \nDo not touch the blade."
+    }
+  ]
+}

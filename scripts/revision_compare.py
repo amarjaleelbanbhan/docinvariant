@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+from collections import Counter
 from difflib import SequenceMatcher
 from importlib.metadata import version
 
@@ -51,6 +52,10 @@ def _blocks(source: str, parser, path: str) -> list[dict]:
         token = tokens[index]
         if token.type in CONTAINERS:
             start = (token.attrGet("start") or 1) if token.type == "ordered_list_open" else None
+            if token.type == "list_item_open":
+                # The parser retains each authored ordered marker in info.
+                # CommonMark rendering uses only the list's first number.
+                start = token.info or None
             stack.append((token.type, start))
         elif token.nesting == -1 and token.type.replace("_close", "_open") in CONTAINERS:
             stack.pop()
@@ -100,22 +105,30 @@ def compare_documents(original: str, proposed: str, original_path: str = "<origi
     parser = MarkdownIt("commonmark").enable("table")
     before = _blocks(original, parser, original_path)
     after = _blocks(proposed, parser, proposed_path)
+    duplicated_keys = {key for blocks in (before, after)
+                       for key, count in Counter(b["key"] for b in blocks).items() if count > 1}
     matcher = SequenceMatcher(None, [b["key"] for b in before], [b["key"] for b in after], autojunk=False)
     changes = [{
         "operation": operation, "original": [b["span"] for b in before[i:j]],
         "proposed": [b["span"] for b in after[k:l]],
+        "alignment_ambiguous": any(b["key"] in duplicated_keys for b in before[i:j] + after[k:l]),
         "priority": "human-review", "explanation": "Text or document structure differs; review intent and correctness.",
     } for operation, i, j, k, l in matcher.get_opcodes() if operation != "equal"]
+    ambiguity = bool(changes and duplicated_keys)
+    ambiguity_notes = ["Duplicate normalized blocks are present; difflib's deterministic correspondence may not be unique. Reported source slices do not prove which identical occurrence was removed or retained."] if ambiguity else []
     return {
         "method": "markdown-block-diff", "schema_version": 1,
         "parser": {"name": "markdown-it-py", "version": version("markdown-it-py"), "preset": "commonmark+table"},
         "review_status": "TEXT_CHANGES_REQUIRE_REVIEW" if changes else "NO_REPORTED_TEXT_CHANGE",
         "semantic_status": "NOT_ASSESSED", "original_blocks": len(before), "proposed_blocks": len(after),
+        "alignment_ambiguous": ambiguity,
         "coverage_notes": [
             "Textual screening only; no findings does not prove semantic equivalence or safety.",
             "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+            "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+            "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
             "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
             "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred.",
-        ],
+        ] + ambiguity_notes,
         "revision_changes": changes,
     }

@@ -14,6 +14,8 @@ python experiments/located_compare/run.py --output /tmp/located-comparison.json
 
 The comparison runner uses Git to load the exact original checker from `dada59452ad4b18cb43e23619650d240edcea1eb` without modifying it, and runs ordinary GNU `diff` plus stdlib `difflib`. Use a checkout containing that commit (not a shallow clone omitting it). GNU diff must be installed. The runner blocks Python sockets during comparisons and never executes fixture commands. It is a small reproduction script, not a new evaluation framework; it reports counts rather than semantic metrics or inferred labels.
 
+These reproduction commands and the GNU-diff runner are Linux/POSIX-oriented, with `/tmp` paths and external Git/diff prerequisites. That is separate from the local CLI's Python 3.10+ support. Windows CLI execution was not independently tested here.
+
 To include the existing Semantic Change Radar implementation:
 
 ```bash
@@ -71,3 +73,36 @@ Two additional formatting failures were found after the first passing suite: Set
 Default structural checks and protected-token comparison are unchanged. New findings use `semantic_status: NOT_ASSESSED`; zero findings cannot establish equivalence or safety. Replacement groups are diff hunks, not asserted proposition/sentence matches. Moves, splits, merges, synonyms and quantity equivalence may require review. CommonMark inline syntax is decoded by the parser; prose whitespace/emphasis are normalized, code values remain in ordered keys, and raw source is included for each reported side. Nested markup ownership is retained, but role/quantity binding is not inferred. HTML, unused definitions and other unmapped source are literal comparisons; embedded syntax is not analyzed.
 
 Maximum input: 200,000 characters and 2,000 blocks per side. Over-limit input fails explicitly rather than silently truncating. Python package installation can access the network; document comparisons do not fetch resources. CI tests dependency-free/default behavior first, then the full optional suite on Python 3.10–3.13. Rollback: keep using default token mode or remove the optional adapter. Independent human labels and real documentation-review usefulness remain the next research blockers.
+
+## PR review corrections (P1/P2)
+
+Both cases reproduced on the pre-review adapter `496662174ee4811cefc310b31845f96dd652fa89` using pinned markdown-it-py **4.0.0**. The original 28 fixtures, `results.json`, and `radar_reproduction.json` are preserved. `results_after_review.json` contains a new run on the same 28 inputs; all five arms' alert counts are unchanged. `review_fixtures.json` and `review_results.json` retain ten separate targeted probes, including before/after adapter outputs. These are regression fixtures, not E1 human labels; they must not be combined into a research score.
+
+P1: `1. Restart service. / 2. Delete backup.` versus later marker `9.` initially produced no finding. The parser's `list_item_open.info` retains every authored ordered number, while CommonMark rendering uses only the first number as the list start. The adapter now reuses this field in the container key. No Markdown lexer/parser or alignment algorithm was added. The changed item is reported on line 2 with exact old/new source. Nested numbering is covered too. Starting-list changes affect rendering and also alert; `.` versus `)` and harmless spacing do not alert. The `1., 1.` → `1., 2.` cleanup renders identically but now deliberately alerts: authored numbering/cross-reference review is the policy, not a claim that rendering or meaning changed.
+
+P2: identical repeated instructions previously produced a deterministic selected deletion with no uncertainty indicator. Findings involving repeated normalized keys now carry `alignment_ambiguous: true`. A report-level flag and coverage note conservatively warn whenever edits coexist with duplicate keys, including duplicates outside a particular changed hunk. This is an ambiguity indicator, not a calibrated probability or proof that every flagged match is non-unique. `false` does not prove general alignment correctness. Exact original/proposed spans remain intact and the `difflib` opcode algorithm is unchanged. Unchanged repeated documents produce no edit finding; unique deletion does not raise this duplicate warning.
+
+Normalization also applies to WARNING/CAUTION emphasis and line-break presentation. A targeted test confirms that presentation-only changes can yield no revision finding with `semantic_status: NOT_ASSESSED`. Visual prominence and safety presentation are outside this mode's coverage; ordinary diff remains appropriate when reviewing every markup edit.
+
+| Targeted probe group | Pre-review block adapter | Corrected block adapter |
+|---|---|---|
+| 6 intended edits | 4 exposed | 6 exposed |
+| 4 intended preserved controls | 0 alerted | 1 alerted (render-equivalent renumbering) |
+| Duplicate deletion | Selected source occurrence, no ambiguity field | Same deterministic selection, explicit ambiguity |
+
+Ordinary diff/difflib expose all six targeted edits and alert on three preserved controls; the frozen checker exposes three/alerts on two; Radar lexical baseline exposes four/alerts on one. Radar misses later authored-marker and list-start changes in this targeted set. These counts describe normalization/detection policies on constructed inputs and do not demonstrate semantic superiority. The original block-mode five harmless alerts remain unresolved.
+
+Reproduce from the repository root (after the optional Radar setup above):
+
+```bash
+python experiments/located_compare/run.py --output /tmp/review-results.json --fixtures experiments/located_compare/review_fixtures.json --previous-block-ref 496662174ee4811cefc310b31845f96dd652fa89 --radar-source /tmp/semantic-change-radar
+python experiments/located_compare/run.py --output /tmp/results-after-review.json --radar-source /tmp/semantic-change-radar
+```
+
+## Corrected upstream interpretation
+
+Read [Claude's Issue #7 update](https://github.com/amarjaleelbanbhan/docinvariant/issues/7#issuecomment-6070149501). Claude reports dev/test lexical results reproducing metric-for-metric, with a historical `compare.py` source hash absent from committed history. These dev/test executions/history searches were **not repeated here**. Independently reading the artifacts confirms their recorded `compare.py` hash differs from current source. The separately reproduced **blind-v3** lexical run retained here has matching source hashes; this scope must not be conflated with historical dev/test provenance.
+
+Independently inspected `_classify()` confirms that the lexical backend marks every nonidentical aligned passage as modified without a semantic decision. Recall on eligible aligned edits largely follows that alert policy; alignment, normalization, omissions and coverage can still cause end-to-end misses. The targeted marker misses illustrate why “perfect recall by construction” must not be generalized to all raw edits. Neither Radar nor this adapter discriminates consequential changes simply by surfacing them. Reproducing a computation does not validate its task labels.
+
+All cited upstream labels are AI-authored or AI-reviewed and not independently human-validated. The annotation-provenance note's author confirmation is not independent adjudication or human gold. Model-generated references cannot support a DocInvariant accuracy claim. Claude's real-corpus and rights work remains separate and ongoing; no new corpus/model/data dependency was adopted, and no real-corpus rights or semantic-model benefit is claimed here. Models remain deferred for this focused PR because the implementation scope is textual review, not because lexical scores prove semantic adequacy.

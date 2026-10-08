@@ -74,6 +74,75 @@ class RevisionComparisonTests(unittest.TestCase):
         self.assertEqual(result["revision_changes"][0]["operation"], "delete")
         self.assertEqual(result["revision_changes"][0]["original"][0]["line_start"], 3)
 
+    def test_authored_ordered_marker_change_is_located(self):
+        original = "1. Restart service.\n2. Delete backup.\n"
+        proposed = "1. Restart service.\n9. Delete backup.\n"
+        from markdown_it import MarkdownIt
+        self.assertEqual(MarkdownIt("commonmark").render(original), MarkdownIt("commonmark").render(proposed))
+        result = compare_documents(original, proposed, "old.md", "new.md")
+        self.assertEqual(result["review_status"], "TEXT_CHANGES_REQUIRE_REVIEW")
+        change = result["revision_changes"][0]
+        self.assertEqual(change["original"][0]["line_start"], 2)
+        self.assertEqual(change["proposed"][0]["line_start"], 2)
+        self.assertEqual(change["original"][0]["text"], "2. Delete backup.\n")
+        self.assertEqual(change["proposed"][0]["text"], "9. Delete backup.\n")
+
+    def test_ordered_delimiter_and_spacing_are_formatting(self):
+        original = "1. Restart service.\n2. Delete backup.\n"
+        proposed = "1)  Restart service.\n2)  Delete backup.\n"
+        self.assertEqual(compare_documents(original, proposed)["revision_changes"], [])
+
+    def test_render_equivalent_renumbering_still_requires_authored_number_review(self):
+        original = "1. Restart service.\n1. Delete backup.\n"
+        proposed = "1. Restart service.\n2. Delete backup.\n"
+        from markdown_it import MarkdownIt
+        self.assertEqual(MarkdownIt("commonmark").render(original), MarkdownIt("commonmark").render(proposed))
+        self.assertTrue(compare_documents(original, proposed)["revision_changes"])
+
+    def test_ordered_list_start_changes_rendering(self):
+        original, proposed = "2. Restart service.\n3. Delete backup.\n", "3. Restart service.\n4. Delete backup.\n"
+        from markdown_it import MarkdownIt
+        self.assertNotEqual(MarkdownIt("commonmark").render(original), MarkdownIt("commonmark").render(proposed))
+        self.assertTrue(compare_documents(original, proposed)["revision_changes"])
+
+    def test_nested_ordered_number_uses_parser_info(self):
+        original = "> 1. Prepare.\n>    1. Restart service.\n>    2. Delete backup.\n"
+        proposed = "> 1. Prepare.\n>    1. Restart service.\n>    9. Delete backup.\n"
+        result = compare_documents(original, proposed)
+        self.assertTrue(result["revision_changes"])
+        self.assertEqual(result["revision_changes"][0]["original"][0]["line_start"], 3)
+
+    def test_duplicate_deletion_discloses_uncertain_occurrence(self):
+        original = "Verify the backup.\n\nVerify the backup.\n\nDelete the old backup.\n"
+        proposed = "Verify the backup.\n\nDelete the old backup.\n"
+        result = compare_documents(original, proposed)
+        self.assertTrue(result["alignment_ambiguous"])
+        change = result["revision_changes"][0]
+        self.assertTrue(change["alignment_ambiguous"])
+        self.assertIn(change["original"][0]["line_start"], {1, 3})
+        self.assertEqual(change["original"][0]["text"], "Verify the backup.\n")
+        self.assertTrue(any("duplicate" in note.lower() for note in result["coverage_notes"]))
+
+    def test_duplicate_insertion_and_normalized_keys_disclose_ambiguity(self):
+        result = compare_documents("Verify the backup.", "Verify the backup.\n\nVerify **the backup**.")
+        self.assertTrue(result["alignment_ambiguous"])
+        self.assertTrue(result["revision_changes"][0]["alignment_ambiguous"])
+
+    def test_unchanged_duplicates_and_unique_deletion_controls(self):
+        same = "Verify the backup.\n\nVerify the backup."
+        self.assertEqual(compare_documents(same, same)["revision_changes"], [])
+        self.assertFalse(compare_documents(same, same)["alignment_ambiguous"])
+        result = compare_documents("Verify the backup.\n\nDelete the old backup.", "Verify the backup.")
+        self.assertFalse(result["alignment_ambiguous"])
+        self.assertFalse(result["revision_changes"][0]["alignment_ambiguous"])
+
+    def test_warning_presentation_normalization_does_not_approve_safety(self):
+        original, proposed = "**WARNING:** Keep clear.\nDo not touch the blade.", "WARNING: Keep clear.  \nDo not touch the blade."
+        result = compare_documents(original, proposed)
+        self.assertEqual(result["revision_changes"], [])
+        self.assertEqual(result["semantic_status"], "NOT_ASSESSED")
+        self.assertTrue(any("WARNING" in note for note in result["coverage_notes"]))
+
     def test_container_change_is_reviewable(self):
         self.assertTrue(compare_documents("> Only if ready:\n>\n> Restart.", "Only if ready:\n\nRestart.")["revision_changes"])
 

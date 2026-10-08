@@ -1,0 +1,4030 @@
+{
+  "scope": "Engineering fixtures only. Model-assisted intended labels; not human gold, benchmark accuracy, or evidence of usefulness.",
+  "baseline_commit": "dada59452ad4b18cb43e23619650d240edcea1eb",
+  "baseline_source_sha256": "2f95792fca7bdd35a557980349c771112505146bde4da49bd023ef8f53cff0c7",
+  "fixture_sha256": "fc9574b7dd76e4f3bfd5aad94bfdc0d10fd03a744f30630348cd7756e56ad0a9",
+  "radar_commit": "708083d99b77de721a8e1302fbd4190a20129a42",
+  "radar_profile": "baseline",
+  "previous_block_ref": null,
+  "block_source_sha256": "10ce053204f7de6f7f20bc4295a02f04aa65b88ffb3c56c85910c229f75550ce",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "markdown-it-py": "4.0.0",
+    "mdurl": "0.1.2",
+    "diff": "diff (GNU diffutils) 3.10"
+  },
+  "command": [
+    "experiments/located_compare/run.py",
+    "--output",
+    "experiments/located_compare/results_after_review.json",
+    "--radar-source",
+    "/workspace/scratch/a781d2377683/radar-checkout"
+  ],
+  "summary": {
+    "ordinary_diff": {
+      "changed_intent_alerts": 17,
+      "preserved_intent_alerts": 10,
+      "unalerted_changed_ids": [],
+      "alerted_preserved_ids": [
+        "soft_wrap",
+        "emphasis",
+        "fence_marker",
+        "bullet_marker",
+        "blank_lines",
+        "negation_paraphrase",
+        "quantity_equivalence",
+        "group_separator",
+        "synonym",
+        "sentence_split"
+      ]
+    },
+    "difflib": {
+      "changed_intent_alerts": 17,
+      "preserved_intent_alerts": 10,
+      "unalerted_changed_ids": [],
+      "alerted_preserved_ids": [
+        "soft_wrap",
+        "emphasis",
+        "fence_marker",
+        "bullet_marker",
+        "blank_lines",
+        "negation_paraphrase",
+        "quantity_equivalence",
+        "group_separator",
+        "synonym",
+        "sentence_split"
+      ]
+    },
+    "baseline": {
+      "changed_intent_alerts": 4,
+      "preserved_intent_alerts": 4,
+      "unalerted_changed_ids": [
+        "allow_deny",
+        "actor_swap",
+        "quantity_swap",
+        "verification_deleted",
+        "inline_paths",
+        "fenced_command",
+        "prerequisite_deleted",
+        "condition",
+        "long_units",
+        "sign",
+        "quantifier",
+        "table_role_swap",
+        "ordered_steps_swap"
+      ],
+      "alerted_preserved_ids": [
+        "fence_marker",
+        "negation_paraphrase",
+        "quantity_equivalence",
+        "group_separator"
+      ]
+    },
+    "blocks": {
+      "changed_intent_alerts": 17,
+      "preserved_intent_alerts": 5,
+      "unalerted_changed_ids": [],
+      "alerted_preserved_ids": [
+        "negation_paraphrase",
+        "quantity_equivalence",
+        "group_separator",
+        "synonym",
+        "sentence_split"
+      ]
+    },
+    "radar_lexical": {
+      "changed_intent_alerts": 17,
+      "preserved_intent_alerts": 7,
+      "unalerted_changed_ids": [],
+      "alerted_preserved_ids": [
+        "emphasis",
+        "fence_marker",
+        "negation_paraphrase",
+        "quantity_equivalence",
+        "group_separator",
+        "synonym",
+        "sentence_split"
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "allow_deny",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Allow user access.\n\\ No newline at end of file\n+Deny user access.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Allow user access.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Deny user access.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 18.28227699979834,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.8,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Allow user access.",
+            "new_text": "Deny user access.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Allow user access."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Deny user access."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.6667,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "actor_swap",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-The server sends data to the database.\n\\ No newline at end of file\n+The database sends data to the server.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "The server sends data to the database.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "The database sends data to the server.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.9080630002245016,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.39,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "The server sends data to the database.",
+            "new_text": "The database sends data to the server.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "The server sends data to the database."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "The database sends data to the server."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.9286,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [
+              "The same words have different clause or actor assignments."
+            ],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Actor or scope change",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "quantity_swap",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Hold for 5 seconds, then release for 30 seconds.\n\\ No newline at end of file\n+Hold for 30 seconds, then release for 5 seconds.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Hold for 5 seconds, then release for 30 seconds.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Hold for 30 seconds, then release for 5 seconds.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.5546829997911118,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.19,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Hold for 5 seconds, then release for 30 seconds.",
+            "new_text": "Hold for 30 seconds, then release for 5 seconds.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Hold for 5 seconds, then release for 30 seconds."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Hold for 30 seconds, then release for 5 seconds."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.9444,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [
+              "Numeric values or their order changed; check quantities, dates, and units."
+            ],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Quantity or date change",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "verification_deleted",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1,3 +1,2 @@\n - Open the archive.\n-- Verify the backup.\n - Close the archive.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "equal",
+            0,
+            1,
+            0,
+            1
+          ],
+          [
+            "delete",
+            1,
+            2,
+            1,
+            1
+          ],
+          [
+            "equal",
+            2,
+            3,
+            1,
+            2
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 3,
+        "proposed_blocks": 2,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "delete",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 2,
+                "line_end": 2,
+                "text": "- Verify the backup.\n",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.7623040000908077,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 3,
+        "new_count": 2,
+        "elapsed_ms": 0.07,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "- Open the archive.",
+            "new_text": "- Open the archive.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "- Open the archive."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "- Open the archive."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "unchanged",
+            "category": "Unchanged",
+            "explanation": "Text is identical after whitespace and list-marker normalization.",
+            "id": "change-1"
+          },
+          {
+            "old_index": 2,
+            "new_index": 1,
+            "old_indices": [
+              2
+            ],
+            "new_indices": [
+              1
+            ],
+            "old_text": "- Close the archive.",
+            "new_text": "- Close the archive.",
+            "old_parts": [
+              {
+                "index": 2,
+                "text": "- Close the archive."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 1,
+                "text": "- Close the archive."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "unchanged",
+            "category": "Unchanged",
+            "explanation": "Text is identical after whitespace and list-marker normalization.",
+            "id": "change-2"
+          },
+          {
+            "old_index": 1,
+            "new_index": null,
+            "old_indices": [
+              1
+            ],
+            "new_indices": [],
+            "old_text": "- Verify the backup.",
+            "new_text": "",
+            "old_parts": [
+              {
+                "index": 1,
+                "text": "- Verify the backup."
+              }
+            ],
+            "new_parts": [],
+            "moved": false,
+            "alignment_score": null,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "removed",
+            "category": "Removed passage",
+            "explanation": "No sufficiently supported counterpart was found in the revised document.",
+            "id": "change-3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inline_paths",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Copy `vault/primary.key` to `vault/backup.key`.\n\\ No newline at end of file\n+Copy `vault/backup.key` to `vault/primary.key`.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Copy `vault/primary.key` to `vault/backup.key`.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Copy `vault/backup.key` to `vault/primary.key`.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.5677720000676345,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.16,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Copy `vault/primary.key` to `vault/backup.key`.",
+            "new_text": "Copy `vault/backup.key` to `vault/primary.key`.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Copy `vault/primary.key` to `vault/backup.key`."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Copy `vault/backup.key` to `vault/primary.key`."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.875,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fenced_command",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1,3 +1,3 @@\n ```sh\n-rm -i sample.txt\n+rm -f sample.txt\n ```\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "equal",
+            0,
+            1,
+            0,
+            1
+          ],
+          [
+            "replace",
+            1,
+            2,
+            1,
+            2
+          ],
+          [
+            "equal",
+            2,
+            3,
+            2,
+            3
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 3,
+                "text": "```sh\nrm -i sample.txt\n```",
+                "kind": "fence"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 3,
+                "text": "```sh\nrm -f sample.txt\n```",
+                "kind": "fence"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.5031850000705163,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.21,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "```sh rm -i sample.txt ```",
+            "new_text": "```sh rm -f sample.txt ```",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "```sh rm -i sample.txt ```"
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "```sh rm -f sample.txt ```"
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.8,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "prerequisite_deleted",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1,3 +1 @@\n-Check that the backup exists.\n-\n Delete the sample file.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "delete",
+            0,
+            2,
+            0,
+            0
+          ],
+          [
+            "equal",
+            2,
+            3,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 2,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "delete",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Check that the backup exists.\n",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.5061699998805125,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 2,
+        "new_count": 1,
+        "elapsed_ms": 0.05,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 1,
+            "new_index": 0,
+            "old_indices": [
+              1
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Delete the sample file.",
+            "new_text": "Delete the sample file.",
+            "old_parts": [
+              {
+                "index": 1,
+                "text": "Delete the sample file."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Delete the sample file."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "unchanged",
+            "category": "Unchanged",
+            "explanation": "Text is identical after whitespace and list-marker normalization.",
+            "id": "change-1"
+          },
+          {
+            "old_index": 0,
+            "new_index": null,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [],
+            "old_text": "Check that the backup exists.",
+            "new_text": "",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Check that the backup exists."
+              }
+            ],
+            "new_parts": [],
+            "moved": false,
+            "alignment_score": null,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "removed",
+            "category": "Removed passage",
+            "explanation": "No sufficiently supported counterpart was found in the revised document.",
+            "id": "change-2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "obligation",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-The server must retry.\n\\ No newline at end of file\n+The server may retry.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "EXPERT_REVIEW_REQUIRED",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": [
+          {
+            "category": "modal_polarity_condition",
+            "removed": [
+              "must"
+            ],
+            "added": [
+              "may"
+            ],
+            "priority": "expert-review"
+          },
+          {
+            "category": "modal_scope_context",
+            "removed": [
+              "the server must retry"
+            ],
+            "added": [
+              "the server may retry"
+            ],
+            "priority": "expert-review",
+            "explanation": "Windowed context differs; screen for negation, authorization, and condition scope changes. Heuristic only."
+          }
+        ]
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "The server must retry.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "The server may retry.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 1.0276570001224172,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.14,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "The server must retry.",
+            "new_text": "The server may retry.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "The server must retry."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "The server may retry."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.75,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [
+              "Requirement wording changed."
+            ],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Requirement change",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "exception",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Restart unless the backup failed.\n\\ No newline at end of file\n+Restart even if the backup failed.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "EXPERT_REVIEW_REQUIRED",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": [
+          {
+            "category": "modal_polarity_condition",
+            "removed": [
+              "unless"
+            ],
+            "added": [
+              "if"
+            ],
+            "priority": "expert-review"
+          },
+          {
+            "category": "modal_scope_context",
+            "removed": [
+              "restart unless the backup failed"
+            ],
+            "added": [
+              "restart even if the backup failed"
+            ],
+            "priority": "expert-review",
+            "explanation": "Windowed context differs; screen for negation, authorization, and condition scope changes. Heuristic only."
+          }
+        ]
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Restart unless the backup failed.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Restart even if the backup failed.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.5084829999759677,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.14,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Restart unless the backup failed.",
+            "new_text": "Restart even if the backup failed.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Restart unless the backup failed."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Restart even if the backup failed."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.7295,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [
+              "A condition, exception, or restriction marker changed."
+            ],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Condition change",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "condition",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-If the power is off, open the cover.\n\\ No newline at end of file\n+If the power is on, open the cover.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "If the power is off, open the cover.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "If the power is on, open the cover.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.4781779998666025,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.23,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "If the power is off, open the cover.",
+            "new_text": "If the power is on, open the cover.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "If the power is off, open the cover."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "If the power is on, open the cover."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.8938,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "long_units",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Wait 5 minutes.\n\\ No newline at end of file\n+Wait 5 hours.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Wait 5 minutes.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Wait 5 hours.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.46629000007669674,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.19,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Wait 5 minutes.",
+            "new_text": "Wait 5 hours.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Wait 5 minutes."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Wait 5 hours."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.6667,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [
+              "Measurement values or units differ."
+            ],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Quantity or date change",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sign",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Set the gap to 2 mm.\n\\ No newline at end of file\n+Set the gap to -2 mm.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Set the gap to 2 mm.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Set the gap to -2 mm.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.820971999928588,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.4,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Set the gap to 2 mm.",
+            "new_text": "Set the gap to -2 mm.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Set the gap to 2 mm."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Set the gap to -2 mm."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [
+              "Numeric values or their order changed; check quantities, dates, and units."
+            ],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Quantity or date change",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "quantifier",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Delete all sample logs.\n\\ No newline at end of file\n+Delete one sample log.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Delete all sample logs.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Delete one sample log.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.7726200001343386,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.18,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Delete all sample logs.",
+            "new_text": "Delete one sample log.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Delete all sample logs."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Delete one sample log."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.5,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "link_destination",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Read [the guide](https://a.example/guide).\n\\ No newline at end of file\n+Read [the guide](https://b.example/guide).\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "EXPERT_REVIEW_REQUIRED",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": [
+          {
+            "category": "urls",
+            "removed": [
+              "https://a.example/guide"
+            ],
+            "added": [
+              "https://b.example/guide"
+            ],
+            "priority": "expert-review"
+          },
+          {
+            "category": "identifiers",
+            "removed": [
+              "a.example/guide"
+            ],
+            "added": [
+              "b.example/guide"
+            ],
+            "priority": "expert-review"
+          }
+        ]
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Read [the guide](https://a.example/guide).",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Read [the guide](https://b.example/guide).",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.8496350001223618,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.15,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Read [the guide](https://a.example/guide).",
+            "new_text": "Read [the guide](https://b.example/guide).",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Read [the guide](https://a.example/guide)."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Read [the guide](https://b.example/guide)."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.881,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "table_role_swap",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1,3 +1,3 @@\n | Actor | Target |\n | --- | --- |\n-| Server | Database |\n\\ No newline at end of file\n+| Database | Server |\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "equal",
+            0,
+            2,
+            0,
+            2
+          ],
+          [
+            "replace",
+            2,
+            3,
+            2,
+            3
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 3,
+                "text": "| Actor | Target |\n| --- | --- |\n| Server | Database |",
+                "kind": "table_open"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 3,
+                "text": "| Actor | Target |\n| --- | --- |\n| Database | Server |",
+                "kind": "table_open"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.6359140002132335,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.16,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "| Actor | Target | | --- | --- | | Server | Database |",
+            "new_text": "| Actor | Target | | --- | --- | | Database | Server |",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "| Actor | Target | | --- | --- | | Server | Database |"
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "| Actor | Target | | --- | --- | | Database | Server |"
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.9375,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ordered_steps_swap",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1,2 +1,2 @@\n-1. Back up files.\n-2. Delete files.\n\\ No newline at end of file\n+1. Delete files.\n+2. Back up files.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            2,
+            0,
+            2
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 2,
+        "proposed_blocks": 2,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "1. Back up files.\n",
+                "kind": "inline"
+              },
+              {
+                "path": "original.md",
+                "line_start": 2,
+                "line_end": 2,
+                "text": "2. Delete files.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "1. Delete files.\n",
+                "kind": "inline"
+              },
+              {
+                "path": "proposed.md",
+                "line_start": 2,
+                "line_end": 2,
+                "text": "2. Back up files.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.6278720002228511,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 2,
+        "new_count": 2,
+        "elapsed_ms": 0.06,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 1,
+            "new_index": 0,
+            "old_indices": [
+              1
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "2. Delete files.",
+            "new_text": "1. Delete files.",
+            "old_parts": [
+              {
+                "index": 1,
+                "text": "2. Delete files."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "1. Delete files."
+              }
+            ],
+            "moved": true,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "unchanged",
+            "category": "Unchanged",
+            "explanation": "Text is identical after whitespace and list-marker normalization.",
+            "id": "change-1"
+          },
+          {
+            "old_index": 0,
+            "new_index": 1,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              1
+            ],
+            "old_text": "1. Back up files.",
+            "new_text": "2. Back up files.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "1. Back up files."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 1,
+                "text": "2. Back up files."
+              }
+            ],
+            "moved": true,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "unchanged",
+            "category": "Unchanged",
+            "explanation": "Text is identical after whitespace and list-marker normalization.",
+            "id": "change-2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "code_spacing",
+      "intent": "changed",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Run `echo a b`.\n\\ No newline at end of file\n+Run `echo ab`.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "EXPERT_REVIEW_REQUIRED",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": [
+          {
+            "category": "inline_literals",
+            "removed": [
+              "`echo a b`"
+            ],
+            "added": [
+              "`echo ab`"
+            ],
+            "priority": "expert-review"
+          }
+        ]
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Run `echo a b`.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Run `echo ab`.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 1.3459000001603272,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.14,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Run `echo a b`.",
+            "new_text": "Run `echo ab`.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Run `echo a b`."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Run `echo ab`."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.5759,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "unchanged",
+      "intent": "preserved",
+      "ordinary_diff": {
+        "alert": false,
+        "output": ""
+      },
+      "difflib": {
+        "alert": false,
+        "opcodes": [
+          [
+            "equal",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "NO_REPORTED_TEXT_CHANGE",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": []
+      },
+      "blocks_elapsed_ms": 0.4738109996651474,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.04,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Install the module.",
+            "new_text": "Install the module.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Install the module."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Install the module."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "unchanged",
+            "category": "Unchanged",
+            "explanation": "Text is identical after whitespace and list-marker normalization.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "soft_wrap",
+      "intent": "preserved",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1,2 @@\n-Install the module and restart the service.\n\\ No newline at end of file\n+Install the module and\n+restart the service.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            2
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "NO_REPORTED_TEXT_CHANGE",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": []
+      },
+      "blocks_elapsed_ms": 0.5448679999062733,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.05,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Install the module and restart the service.",
+            "new_text": "Install the module and restart the service.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Install the module and restart the service."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Install the module and restart the service."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "unchanged",
+            "category": "Unchanged",
+            "explanation": "Text is identical after whitespace and list-marker normalization.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "emphasis",
+      "intent": "preserved",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Install the module.\n\\ No newline at end of file\n+Install **the module**.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "NO_REPORTED_TEXT_CHANGE",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": []
+      },
+      "blocks_elapsed_ms": 0.5695449999620905,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.17,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Install the module.",
+            "new_text": "Install **the module**.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Install the module."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Install **the module**."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fence_marker",
+      "intent": "preserved",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1,3 +1,3 @@\n-```sh\n+~~~~sh\n echo sample\n-```\n\\ No newline at end of file\n+~~~~\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ],
+          [
+            "equal",
+            1,
+            2,
+            1,
+            2
+          ],
+          [
+            "replace",
+            2,
+            3,
+            2,
+            3
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "EXPERT_REVIEW_REQUIRED",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": [
+          {
+            "category": "inline_literals",
+            "removed": [
+              "``",
+              "``"
+            ],
+            "added": [],
+            "priority": "expert-review"
+          }
+        ]
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "NO_REPORTED_TEXT_CHANGE",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": []
+      },
+      "blocks_elapsed_ms": 0.44067099997846526,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.13,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "```sh echo sample ```",
+            "new_text": "~~~~sh echo sample ~~~~",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "```sh echo sample ```"
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "~~~~sh echo sample ~~~~"
+              }
+            ],
+            "moved": false,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bullet_marker",
+      "intent": "preserved",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-- Install the module.\n\\ No newline at end of file\n+* Install the module.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "NO_REPORTED_TEXT_CHANGE",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": []
+      },
+      "blocks_elapsed_ms": 0.5431049999060633,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.04,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "- Install the module.",
+            "new_text": "* Install the module.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "- Install the module."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "* Install the module."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "unchanged",
+            "category": "Unchanged",
+            "explanation": "Text is identical after whitespace and list-marker normalization.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "blank_lines",
+      "intent": "preserved",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1,3 +1,5 @@\n+\n Install the module.\n \n-Restart the service.\n\\ No newline at end of file\n+\n+Restart the service.\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "insert",
+            0,
+            0,
+            0,
+            1
+          ],
+          [
+            "equal",
+            0,
+            2,
+            1,
+            3
+          ],
+          [
+            "replace",
+            2,
+            3,
+            3,
+            5
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "NO_REPORTED_TEXT_CHANGE",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 2,
+        "proposed_blocks": 2,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": []
+      },
+      "blocks_elapsed_ms": 0.5621939999400638,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 2,
+        "new_count": 2,
+        "elapsed_ms": 0.06,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Install the module.",
+            "new_text": "Install the module.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Install the module."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Install the module."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "unchanged",
+            "category": "Unchanged",
+            "explanation": "Text is identical after whitespace and list-marker normalization.",
+            "id": "change-1"
+          },
+          {
+            "old_index": 1,
+            "new_index": 1,
+            "old_indices": [
+              1
+            ],
+            "new_indices": [
+              1
+            ],
+            "old_text": "Restart the service.",
+            "new_text": "Restart the service.",
+            "old_parts": [
+              {
+                "index": 1,
+                "text": "Restart the service."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 1,
+                "text": "Restart the service."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 1.0,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "unchanged",
+            "category": "Unchanged",
+            "explanation": "Text is identical after whitespace and list-marker normalization.",
+            "id": "change-2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "negation_paraphrase",
+      "intent": "preserved",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Do not share the recovery phrase.\n\\ No newline at end of file\n+Never share the recovery phrase.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "EXPERT_REVIEW_REQUIRED",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": [
+          {
+            "category": "modal_polarity_condition",
+            "removed": [
+              "not"
+            ],
+            "added": [
+              "never"
+            ],
+            "priority": "expert-review"
+          },
+          {
+            "category": "modal_scope_context",
+            "removed": [
+              "do not share the recovery"
+            ],
+            "added": [
+              "never share the recovery"
+            ],
+            "priority": "expert-review",
+            "explanation": "Windowed context differs; screen for negation, authorization, and condition scope changes. Heuristic only."
+          }
+        ]
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Do not share the recovery phrase.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Never share the recovery phrase.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.5274720001580135,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.18,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Do not share the recovery phrase.",
+            "new_text": "Never share the recovery phrase.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Do not share the recovery phrase."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Never share the recovery phrase."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.7295,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "quantity_equivalence",
+      "intent": "preserved",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Wait 60 seconds.\n\\ No newline at end of file\n+Wait 1 minute.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "EXPERT_REVIEW_REQUIRED",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": [
+          {
+            "category": "numeric_units",
+            "removed": [
+              "60"
+            ],
+            "added": [
+              "1"
+            ],
+            "priority": "expert-review"
+          }
+        ]
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Wait 60 seconds.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Wait 1 minute.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.47750700014148606,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.18,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": null,
+            "new_index": 0,
+            "old_indices": [],
+            "new_indices": [
+              0
+            ],
+            "old_text": "",
+            "new_text": "Wait 1 minute.",
+            "old_parts": [],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Wait 1 minute."
+              }
+            ],
+            "moved": false,
+            "alignment_score": null,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "added",
+            "category": "Added passage",
+            "explanation": "No sufficiently supported counterpart was found in the original document.",
+            "id": "change-1"
+          },
+          {
+            "old_index": 0,
+            "new_index": null,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [],
+            "old_text": "Wait 60 seconds.",
+            "new_text": "",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Wait 60 seconds."
+              }
+            ],
+            "new_parts": [],
+            "moved": false,
+            "alignment_score": null,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "removed",
+            "category": "Removed passage",
+            "explanation": "No sufficiently supported counterpart was found in the revised document.",
+            "id": "change-2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "group_separator",
+      "intent": "preserved",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Transfer 1,000 MB.\n\\ No newline at end of file\n+Transfer 1000 MB.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "EXPERT_REVIEW_REQUIRED",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": [
+          {
+            "category": "numeric_units",
+            "removed": [
+              "1",
+              "000 mb"
+            ],
+            "added": [
+              "1000 mb"
+            ],
+            "priority": "expert-review"
+          }
+        ]
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Transfer 1,000 MB.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Transfer 1000 MB.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.5229149996921478,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.15,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Transfer 1,000 MB.",
+            "new_text": "Transfer 1000 MB.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Transfer 1,000 MB."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Transfer 1000 MB."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.5759,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [
+              "Measurement values or units differ."
+            ],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Quantity or date change",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "synonym",
+      "intent": "preserved",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1 @@\n-Start the service.\n\\ No newline at end of file\n+Launch the service.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            1
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 1,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Start the service.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Launch the service.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.6077220000406669,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 1,
+        "elapsed_ms": 0.13,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Start the service.",
+            "new_text": "Launch the service.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Start the service."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Launch the service."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.6667,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sentence_split",
+      "intent": "preserved",
+      "ordinary_diff": {
+        "alert": true,
+        "output": "--- original.md\n+++ proposed.md\n@@ -1 +1,3 @@\n-Install the module. Restart the service.\n\\ No newline at end of file\n+Install the module.\n+\n+Restart the service.\n\\ No newline at end of file\n"
+      },
+      "difflib": {
+        "alert": true,
+        "opcodes": [
+          [
+            "replace",
+            0,
+            1,
+            0,
+            3
+          ]
+        ]
+      },
+      "baseline": {
+        "review_status": "PARTIAL_STRUCTURAL_REVIEW",
+        "note": "Token equality is not semantic equivalence. Differences may be benign; omissions may remain undetected.",
+        "protected_token_changes": []
+      },
+      "blocks": {
+        "method": "markdown-block-diff",
+        "schema_version": 1,
+        "parser": {
+          "name": "markdown-it-py",
+          "version": "4.0.0",
+          "preset": "commonmark+table"
+        },
+        "review_status": "TEXT_CHANGES_REQUIRE_REVIEW",
+        "semantic_status": "NOT_ASSESSED",
+        "original_blocks": 1,
+        "proposed_blocks": 2,
+        "alignment_ambiguous": false,
+        "coverage_notes": [
+          "Textual screening only; no findings does not prove semantic equivalence or safety.",
+          "Prose whitespace, soft/hard wrapping, emphasis and bullet marker style are normalized; code whitespace is retained.",
+          "Authored ordered-list numbers are retained even when CommonMark renders renumbered items identically; numeric changes require review.",
+          "WARNING/CAUTION emphasis and line-break presentation changes are normalized too; visual prominence and safety presentation are not assessed.",
+          "HTML and unmapped source are compared as raw text; embedded languages and Markdown extensions are not interpreted.",
+          "Moves and sentence splits/merges may appear as insertion/deletion or replacement groups; role and quantity ownership are not inferred."
+        ],
+        "revision_changes": [
+          {
+            "operation": "replace",
+            "original": [
+              {
+                "path": "original.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Install the module. Restart the service.",
+                "kind": "inline"
+              }
+            ],
+            "proposed": [
+              {
+                "path": "proposed.md",
+                "line_start": 1,
+                "line_end": 1,
+                "text": "Install the module.\n",
+                "kind": "inline"
+              },
+              {
+                "path": "proposed.md",
+                "line_start": 3,
+                "line_end": 3,
+                "text": "Restart the service.",
+                "kind": "inline"
+              }
+            ],
+            "alignment_ambiguous": false,
+            "priority": "human-review",
+            "explanation": "Text or document structure differs; review intent and correctness."
+          }
+        ]
+      },
+      "blocks_elapsed_ms": 0.7172159998845018,
+      "radar_lexical": {
+        "schema_version": 2,
+        "engine": "lexical",
+        "configuration": {
+          "profile": "baseline",
+          "context": false,
+          "groups": false,
+          "detail_verification": false,
+          "max_group_size": 2
+        },
+        "old_count": 1,
+        "new_count": 2,
+        "elapsed_ms": 0.17,
+        "warnings": [
+          "Lexical baseline: wording edits are flagged as changes; no semantic model is used."
+        ],
+        "models": {},
+        "changes": [
+          {
+            "old_index": 0,
+            "new_index": 0,
+            "old_indices": [
+              0
+            ],
+            "new_indices": [
+              0
+            ],
+            "old_text": "Install the module. Restart the service.",
+            "new_text": "Install the module.",
+            "old_parts": [
+              {
+                "index": 0,
+                "text": "Install the module. Restart the service."
+              }
+            ],
+            "new_parts": [
+              {
+                "index": 0,
+                "text": "Install the module."
+              }
+            ],
+            "moved": false,
+            "alignment_score": 0.779,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "old_context": [],
+            "new_context": [],
+            "context_changed": false,
+            "status": "modified",
+            "category": "Text edit",
+            "explanation": "The lexical baseline flags every non-identical passage as an edit. It cannot establish whether meaning is preserved.",
+            "id": "change-1"
+          },
+          {
+            "old_index": null,
+            "new_index": 1,
+            "old_indices": [],
+            "new_indices": [
+              1
+            ],
+            "old_text": "",
+            "new_text": "Restart the service.",
+            "old_parts": [],
+            "new_parts": [
+              {
+                "index": 1,
+                "text": "Restart the service."
+              }
+            ],
+            "moved": false,
+            "alignment_score": null,
+            "old_entails_new": null,
+            "new_entails_old": null,
+            "contradiction_score": null,
+            "signals": [],
+            "status": "added",
+            "category": "Added passage",
+            "explanation": "No sufficiently supported counterpart was found in the original document.",
+            "id": "change-2"
+          }
+        ]
+      }
+    }
+  ]
+}
