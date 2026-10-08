@@ -143,6 +143,24 @@ class RevisionComparisonTests(unittest.TestCase):
         self.assertEqual(result["semantic_status"], "NOT_ASSESSED")
         self.assertTrue(any("WARNING" in note for note in result["coverage_notes"]))
 
+    def test_unicode_separators_do_not_shift_markdown_source_lines(self):
+        # Python str.splitlines() recognizes these as newlines, but CommonMark
+        # source maps count only CR/LF. Their offsets must not be mixed.
+        for separator in ("\\u2028", "\\u2029", "\\u0085", "\\v", "\\f"):
+            separator = separator.encode("ascii").decode("unicode_escape")
+            for eol in ("\\n", "\\r\\n", "\\r"):
+                eol = eol.encode("ascii").decode("unicode_escape")
+                with self.subTest(separator=repr(separator), eol=repr(eol)):
+                    old = "Prefix" + separator + "suffix" + eol + eol + "Allow access." + eol
+                    new = "Prefix" + separator + "suffix" + eol + eol + "Deny access." + eol
+                    result = compare_documents(old, new, "old.md", "new.md")
+                    self.assertEqual(len(result["revision_changes"]), 1)
+                    change = result["revision_changes"][0]
+                    self.assertEqual(change["original"][0]["line_start"], 3)
+                    self.assertEqual(change["proposed"][0]["line_start"], 3)
+                    self.assertEqual(change["original"][0]["text"], "Allow access." + eol)
+                    self.assertEqual(change["proposed"][0]["text"], "Deny access." + eol)
+
     def test_container_change_is_reviewable(self):
         self.assertTrue(compare_documents("> Only if ready:\n>\n> Restart.", "Only if ready:\n\nRestart.")["revision_changes"])
 
