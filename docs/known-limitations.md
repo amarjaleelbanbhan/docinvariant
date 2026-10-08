@@ -13,6 +13,8 @@ The following adversarial cases are known blind spots or weak spots. Do not call
 
 These are qualitative regression observations, not a population-level accuracy score. Preserve them as negative test cases for an independently assessed next release.
 
+The opt-in `--compare-method blocks` exposes the textual revisions in cases 2 and 3 with source locations; it does not infer permissions or actor/object relations. The default token comparator and the structural NOTE limitation are unchanged. Code and tables are included in the new revision screen, while the structural scanner still uses its original extractor. Regression fixtures and remaining harmless-edit alerts are recorded in [the comparison experiment](../experiments/located_compare/README.md).
+
 ## Near-term issue backlog
 
 - Parse NOTE obligation patterns such as `you must` and validate line-level labels.

@@ -19,7 +19,7 @@ DocInvariant combines a deterministic Python CLI with an optional agent skill. I
 
 ## Quick start
 
-Requires **Python 3.10+**. No external Python dependencies and no network calls.
+Requires **Python 3.10+**. The default scanner and token comparison have no external Python dependencies or network calls.
 
 ```bash
 git clone https://github.com/amarjaleelbanbhan/docinvariant.git
@@ -33,6 +33,17 @@ To review a proposed edit against its original:
 ```bash
 python scripts/ste_audit.py draft.md --mode procedure --compare original.md --format json
 ```
+
+For an optional located **textual** revision screen:
+
+```bash
+python -m pip install -r requirements-comparison.txt
+python scripts/ste_audit.py draft.md --mode procedure --compare original.md --compare-method blocks --format json
+```
+
+This mode reuses `markdown-it-py` and Python's `difflib`. It reports changed, added and deleted blocks with both file paths, inclusive line ranges and original source text. It retains inline-code values, fenced commands, links and tables, and ignores selected prose formatting changes. Dependency installation needs package access; comparison runs locally without fetching models or executing document commands. The default `--compare-method tokens` keeps the original behavior.
+
+Block findings are textual differences requiring review, **not** verified changes in meaning. Harmless paraphrases, equivalent quantities and sentence splits can still alert. HTML and syntax omitted by the parser are reviewed as raw text. Inputs exceeding 200,000 characters or 2,000 blocks fail explicitly. See the [reproduced experiment](experiments/located_compare/README.md) for exact behavior and limitations. Install the optional requirements before running the full comparison tests; otherwise those tests are explicitly skipped.
 
 The checker reads files without modifying them. The `--fail-on-length` option returns exit code 2 when it finds an approximate sentence-length issue. An exit code of 0 **is not a compliance or safety guarantee**.
 

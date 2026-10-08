@@ -6,6 +6,8 @@ Input Markdown/text -> conservative prose extraction -> approximate sentence/par
 
 Optional second input -> protected-token multiset differences + nearby modal-context windows -> mandatory manual review where differences are flagged.
 
+Opt-in `--compare-method blocks` -> markdown-it-py CommonMark AST with table support -> ordered block keys and source maps -> stdlib `difflib.SequenceMatcher` opcodes -> raw old/new source ranges for manual review. This is a textual diff adapter, not sentence alignment or a semantic classifier. Unsupported HTML/AST gaps remain raw reviewable text; parsing and diffing have explicit size bounds. The structural scanner remains separate and unchanged.
+
 The CLI reports separate `review_status` and `lexical_status` values. Findings identify a probable issue, not a verified violation.
 
 ## Implemented checks
@@ -20,4 +22,4 @@ The checker version (`1.2.0`) differs from the original Amar Jarvis plugin versi
 
 ## Design constraints
 
-Python standard library only, local execution, no file mutation, no telemetry, deterministic JSON output, additive checks with regression tests, and explicit failures. Future semantics work should remain opt-in; any LLM-assisted judgment must be disclosed and benchmarked separately.
+The default flow uses Python's standard library only. Located block comparison has an optional, pinned MIT parser dependency and its MIT URL helper. Both flows execute locally, without file mutation or document command execution, and produce deterministic findings with explicit failures. Future semantics work should remain opt-in; any LLM-assisted judgment must be disclosed and benchmarked separately.
