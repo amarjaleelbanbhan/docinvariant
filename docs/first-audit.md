@@ -36,7 +36,7 @@ A **protected-token change** is a reason to request human review. It is **not** 
 
 ## 3. Interpret a quiet result honestly
 
-`findings: []` or an exit code of `0` means the checker did not raise a structural candidate for this screen. That is **not** a guarantee of:
+An empty `findings` list means no structural candidates were reported. When comparing files, also inspect `comparison.protected_token_changes`. Exit code `0` means the command completed, **not** that the audit passed or that the documents match. Neither a quiet result nor exit code `0` guarantees:
 
 - safety or operational correctness,
 - semantic equivalence between drafts, or
