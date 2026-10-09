@@ -1,0 +1,3 @@
+# Optional local comparison only; MIT parser and MIT URL helper.
+markdown-it-py==4.0.0
+mdurl==0.1.2

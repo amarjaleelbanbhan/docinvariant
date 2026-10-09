@@ -16,10 +16,20 @@ jobs:
         python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Run unit tests
+      - name: Run dependency-free unit tests
         run: python -m unittest discover -s tests -v
+      - name: Install optional comparison dependencies
+        run: python -m pip install -r requirements-comparison.txt
+      - name: Run complete unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Reproduce located comparison probes
+        run: python experiments/located_compare/run.py --output /tmp/located-comparison.json
+      - name: Reproduce PR review regression probes
+        run: python experiments/located_compare/run.py --fixtures experiments/located_compare/review_fixtures.json --previous-block-ref 496662174ee4811cefc310b31845f96dd652fa89 --output /tmp/review-comparison.json
       - name: CLI smoke test
         run: python scripts/ste_audit.py examples/sample_procedure.md --mode procedure --format json

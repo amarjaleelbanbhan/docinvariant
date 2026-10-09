@@ -193,16 +193,27 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("file", type=Path, help="UTF-8 Markdown or text file; never modified")
     p.add_argument("--mode", choices=["procedure", "description"], required=True)
     p.add_argument("--compare", type=Path, help="Optional original file to screen for protected-token changes")
+    p.add_argument("--compare-method", choices=["tokens", "blocks"], default="tokens", help="tokens: original heuristic; blocks: optional located Markdown text diff (not semantic judgment)")
     p.add_argument("--format", choices=["json", "text"], default="text")
     p.add_argument("--fail-on-length", action="store_true", help="Exit 2 on heuristic length candidates; does not certify STE")
     args = p.parse_args(argv)
+    if args.compare_method == "blocks" and not args.compare:
+        p.error("--compare-method blocks requires --compare")
     try:
         source = args.file.read_text(encoding="utf-8")
         report = scan(source, args.mode)
         if args.compare:
-            report["comparison"] = compare(args.compare.read_text(encoding="utf-8"), source)
+            original = args.compare.read_text(encoding="utf-8")
+            if args.compare_method == "blocks":
+                from revision_compare import compare_documents
+                report["comparison"] = compare_documents(original, source, str(args.compare), str(args.file))
+            else:
+                report["comparison"] = compare(original, source)
     except (OSError, UnicodeError) as e:
         print(f"Cannot read input: {e}", file=sys.stderr)
+        return 1
+    except (RuntimeError, ValueError) as e:
+        print(f"Comparison failed: {e}", file=sys.stderr)
         return 1
     if args.format == "json":
         print(json.dumps(report, indent=2, ensure_ascii=False))
@@ -211,7 +222,9 @@ def main(argv: list[str] | None = None) -> int:
         for finding in report["findings"]:
             print(f"L{finding['line']}: {finding['check']} — {finding['excerpt']}")
         if "comparison" in report:
-            print("Protected-token changes:", json.dumps(report["comparison"]["protected_token_changes"], ensure_ascii=False))
+            comparison = report["comparison"]
+            key = "revision_changes" if args.compare_method == "blocks" else "protected_token_changes"
+            print("Revision text changes:" if args.compare_method == "blocks" else "Protected-token changes:", json.dumps(comparison[key], ensure_ascii=False))
         print("Not full STE compliance. Human review and official Issue 9 required.")
     return 2 if args.fail_on_length and any(f["check"] == "sentence_length_candidate" for f in report["findings"]) else 0
 

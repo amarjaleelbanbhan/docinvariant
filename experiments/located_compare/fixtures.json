@@ -1,0 +1,173 @@
+{
+  "provenance": "Original engineering probes, authored with model assistance; intended labels are not independent human gold. No proprietary standard examples.",
+  "cases": [
+    {
+      "id": "allow_deny",
+      "intent": "changed",
+      "original": "Allow user access.",
+      "proposed": "Deny user access."
+    },
+    {
+      "id": "actor_swap",
+      "intent": "changed",
+      "original": "The server sends data to the database.",
+      "proposed": "The database sends data to the server."
+    },
+    {
+      "id": "quantity_swap",
+      "intent": "changed",
+      "original": "Hold for 5 seconds, then release for 30 seconds.",
+      "proposed": "Hold for 30 seconds, then release for 5 seconds."
+    },
+    {
+      "id": "verification_deleted",
+      "intent": "changed",
+      "original": "- Open the archive.\n- Verify the backup.\n- Close the archive.",
+      "proposed": "- Open the archive.\n- Close the archive."
+    },
+    {
+      "id": "inline_paths",
+      "intent": "changed",
+      "original": "Copy `vault/primary.key` to `vault/backup.key`.",
+      "proposed": "Copy `vault/backup.key` to `vault/primary.key`."
+    },
+    {
+      "id": "fenced_command",
+      "intent": "changed",
+      "original": "```sh\nrm -i sample.txt\n```",
+      "proposed": "```sh\nrm -f sample.txt\n```"
+    },
+    {
+      "id": "prerequisite_deleted",
+      "intent": "changed",
+      "original": "Check that the backup exists.\n\nDelete the sample file.",
+      "proposed": "Delete the sample file."
+    },
+    {
+      "id": "obligation",
+      "intent": "changed",
+      "original": "The server must retry.",
+      "proposed": "The server may retry."
+    },
+    {
+      "id": "exception",
+      "intent": "changed",
+      "original": "Restart unless the backup failed.",
+      "proposed": "Restart even if the backup failed."
+    },
+    {
+      "id": "condition",
+      "intent": "changed",
+      "original": "If the power is off, open the cover.",
+      "proposed": "If the power is on, open the cover."
+    },
+    {
+      "id": "long_units",
+      "intent": "changed",
+      "original": "Wait 5 minutes.",
+      "proposed": "Wait 5 hours."
+    },
+    {
+      "id": "sign",
+      "intent": "changed",
+      "original": "Set the gap to 2 mm.",
+      "proposed": "Set the gap to -2 mm."
+    },
+    {
+      "id": "quantifier",
+      "intent": "changed",
+      "original": "Delete all sample logs.",
+      "proposed": "Delete one sample log."
+    },
+    {
+      "id": "link_destination",
+      "intent": "changed",
+      "original": "Read [the guide](https://a.example/guide).",
+      "proposed": "Read [the guide](https://b.example/guide)."
+    },
+    {
+      "id": "table_role_swap",
+      "intent": "changed",
+      "original": "| Actor | Target |\n| --- | --- |\n| Server | Database |",
+      "proposed": "| Actor | Target |\n| --- | --- |\n| Database | Server |"
+    },
+    {
+      "id": "ordered_steps_swap",
+      "intent": "changed",
+      "original": "1. Back up files.\n2. Delete files.",
+      "proposed": "1. Delete files.\n2. Back up files."
+    },
+    {
+      "id": "code_spacing",
+      "intent": "changed",
+      "original": "Run `echo a b`.",
+      "proposed": "Run `echo ab`."
+    },
+    {
+      "id": "unchanged",
+      "intent": "preserved",
+      "original": "Install the module.",
+      "proposed": "Install the module."
+    },
+    {
+      "id": "soft_wrap",
+      "intent": "preserved",
+      "original": "Install the module and restart the service.",
+      "proposed": "Install the module and\nrestart the service."
+    },
+    {
+      "id": "emphasis",
+      "intent": "preserved",
+      "original": "Install the module.",
+      "proposed": "Install **the module**."
+    },
+    {
+      "id": "fence_marker",
+      "intent": "preserved",
+      "original": "```sh\necho sample\n```",
+      "proposed": "~~~~sh\necho sample\n~~~~"
+    },
+    {
+      "id": "bullet_marker",
+      "intent": "preserved",
+      "original": "- Install the module.",
+      "proposed": "* Install the module."
+    },
+    {
+      "id": "blank_lines",
+      "intent": "preserved",
+      "original": "Install the module.\n\nRestart the service.",
+      "proposed": "\nInstall the module.\n\n\nRestart the service.\n"
+    },
+    {
+      "id": "negation_paraphrase",
+      "intent": "preserved",
+      "original": "Do not share the recovery phrase.",
+      "proposed": "Never share the recovery phrase."
+    },
+    {
+      "id": "quantity_equivalence",
+      "intent": "preserved",
+      "original": "Wait 60 seconds.",
+      "proposed": "Wait 1 minute."
+    },
+    {
+      "id": "group_separator",
+      "intent": "preserved",
+      "original": "Transfer 1,000 MB.",
+      "proposed": "Transfer 1000 MB."
+    },
+    {
+      "id": "synonym",
+      "intent": "preserved",
+      "original": "Start the service.",
+      "proposed": "Launch the service."
+    },
+    {
+      "id": "sentence_split",
+      "intent": "preserved",
+      "original": "Install the module. Restart the service.",
+      "proposed": "Install the module.\n\nRestart the service."
+    }
+  ]
+}

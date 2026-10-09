@@ -19,7 +19,7 @@ DocInvariant combines a deterministic Python CLI with an optional agent skill. I
 
 ## Quick start
 
-Requires **Python 3.10+**. No external Python dependencies and no network calls.
+Requires **Python 3.10+**. The default scanner and token comparison have no external Python dependencies or network calls.
 
 New here? Follow the **[10-minute CLI walkthrough](docs/first-audit.md)** (before → after comparison of a meaning-changing edit).
 
@@ -35,6 +35,19 @@ To review a proposed edit against its original:
 ```bash
 python scripts/ste_audit.py draft.md --mode procedure --compare original.md --format json
 ```
+
+For an optional located **textual** revision screen:
+
+```bash
+python -m pip install -r requirements-comparison.txt
+python scripts/ste_audit.py draft.md --mode procedure --compare original.md --compare-method blocks --format json
+```
+
+This mode reuses `markdown-it-py` and Python's `difflib`. It reports changed, added and deleted blocks with both file paths, inclusive line ranges and original source text. It retains inline-code values, fenced commands, links and tables, and ignores selected prose formatting changes. Dependency installation needs package access; comparison runs locally without fetching models or executing document commands. The default `--compare-method tokens` keeps the original behavior.
+
+Block findings are textual differences requiring review, **not** verified changes in meaning. Harmless paraphrases, equivalent quantities and sentence splits can still alert. HTML and syntax omitted by the parser are reviewed as raw text. Inputs exceeding 200,000 characters or 2,000 blocks fail explicitly. See the [reproduced experiment](experiments/located_compare/README.md) for exact behavior and limitations. Install the optional requirements before running the full comparison tests; otherwise those tests are explicitly skipped.
+
+Authored ordered-list numbers are compared even when CommonMark renders different later numbers identically. Numbering cleanup can therefore require review without changing rendered meaning. Delimiter/spacing style remains normalized. When duplicate normalized blocks accompany edits, `alignment_ambiguous` warns that `difflib`'s selected correspondence may not be unique; source ranges identify selected slices, not a proven deleted occurrence. Presentation changes to emphasis and soft/hard line breaks—including WARNING/CAUTION prominence—are normalized and are not assessed for safety. Table alignment, horizontal-rule style, Setext/ATX heading style, and indented/fenced code style are also normalized; whole-table evidence and numbered-list tail replacements can be broad. Use a raw diff when presentation, table alignment, or precise list renumbering matters. This is not an exhaustive raw-text diff.
 
 The checker reads files without modifying them. The `--fail-on-length` option returns exit code 2 when it finds an approximate sentence-length issue. An exit code of 0 **is not a compliance or safety guarantee**.
 
