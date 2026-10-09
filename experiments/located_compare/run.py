@@ -26,21 +26,23 @@ def main():
     parser.add_argument("--fixtures", type=Path, default=Path(__file__).with_name("fixtures.json"))
     parser.add_argument("--previous-block-ref", help="Optional Git revision for before/after block-adapter evidence")
     args = parser.parse_args()
-    frozen = subprocess.run(["git", "show", f"{BASELINE}:scripts/ste_audit.py"], cwd=ROOT, check=True, text=True, capture_output=True).stdout
+    frozen = subprocess.run(["git", "show", f"{BASELINE}:scripts/ste_audit.py"], cwd=ROOT, check=True, text=True, encoding="utf-8", capture_output=True).stdout
+    # The runner executes trusted, locally checked-out Git history to reproduce
+    # the frozen baseline. Do not use untrusted refs or repositories here.
     baseline = types.ModuleType("frozen_baseline")
     exec(compile(frozen, f"{BASELINE}:scripts/ste_audit.py", "exec"), baseline.__dict__)
     fixture_path = args.fixtures
     data = json.loads(fixture_path.read_text(encoding="utf-8"))
     previous = None
     if args.previous_block_ref:
-        previous_source = subprocess.run(["git", "show", f"{args.previous_block_ref}:scripts/revision_compare.py"], cwd=ROOT, check=True, text=True, capture_output=True).stdout
+        previous_source = subprocess.run(["git", "show", f"{args.previous_block_ref}:scripts/revision_compare.py"], cwd=ROOT, check=True, text=True, encoding="utf-8", capture_output=True).stdout
         previous = types.ModuleType("previous_block_adapter")
         exec(compile(previous_source, "previous_block_adapter", "exec"), previous.__dict__)
     radar, radar_pin = None, None
     if args.radar_source:
         sys.path.insert(0, str(args.radar_source.resolve()))
         from radar.compare import compare_documents as radar
-        radar_pin = subprocess.run(["git", "rev-parse", "HEAD"], cwd=args.radar_source, check=True, capture_output=True, text=True).stdout.strip()
+        radar_pin = subprocess.run(["git", "rev-parse", "HEAD"], cwd=args.radar_source, check=True, capture_output=True, text=True, encoding="utf-8").stdout.strip()
 
     def no_network(*_args, **_kwargs):
         raise RuntimeError("Network is disabled for fixture comparisons")
@@ -56,7 +58,7 @@ def main():
             old, new = Path(folder) / "original.md", Path(folder) / "proposed.md"
             old.write_text(original, encoding="utf-8")
             new.write_text(proposed, encoding="utf-8")
-            diff = subprocess.run(["diff", "-u", "--label", "original.md", "--label", "proposed.md", str(old), str(new)], capture_output=True, text=True)
+            diff = subprocess.run(["diff", "-u", "--label", "original.md", "--label", "proposed.md", str(old), str(new)], capture_output=True, text=True, encoding="utf-8")
             if diff.returncode not in {0, 1}:
                 raise RuntimeError(diff.stderr)
         started = time.perf_counter()
@@ -93,13 +95,13 @@ def main():
     document = {
         "scope": "Engineering fixtures only. Model-assisted intended labels; not human gold, benchmark accuracy, or evidence of usefulness.",
         "baseline_commit": BASELINE, "baseline_source_sha256": hashlib.sha256(frozen.encode()).hexdigest(),
-        "fixture_sha256": hashlib.sha256(fixture_path.read_bytes()).hexdigest(),
+        "fixture_sha256": hashlib.sha256(fixture_path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")).hexdigest(),
         "radar_commit": radar_pin, "radar_profile": "baseline" if radar else None,
         "previous_block_ref": args.previous_block_ref,
-        "block_source_sha256": hashlib.sha256((ROOT / "scripts/revision_compare.py").read_bytes()).hexdigest(),
+        "block_source_sha256": hashlib.sha256((ROOT / "scripts/revision_compare.py").read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")).hexdigest(),
         "environment": {"python": platform.python_version(), "platform": platform.platform(),
                         "markdown-it-py": importlib.metadata.version("markdown-it-py"), "mdurl": importlib.metadata.version("mdurl"),
-                        "diff": subprocess.run(["diff", "--version"], capture_output=True, text=True, check=True).stdout.splitlines()[0]},
+                        "diff": subprocess.run(["diff", "--version"], capture_output=True, text=True, encoding="utf-8", check=True).stdout.splitlines()[0]},
         "command": sys.argv, "summary": summary, "cases": outputs,
     }
     args.output.write_text(json.dumps(document, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

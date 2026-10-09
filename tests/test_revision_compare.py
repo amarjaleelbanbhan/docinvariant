@@ -146,7 +146,7 @@ class RevisionComparisonTests(unittest.TestCase):
     def test_unicode_separators_do_not_shift_markdown_source_lines(self):
         # Python str.splitlines() recognizes these as newlines, but CommonMark
         # source maps count only CR/LF. Their offsets must not be mixed.
-        for separator in ("\\u2028", "\\u2029", "\\u0085", "\\v", "\\f"):
+        for separator in ("\\u2028", "\\u2029", "\\u0085", "\\v", "\\f", "\\x1c", "\\x1d", "\\x1e"):
             separator = separator.encode("ascii").decode("unicode_escape")
             for eol in ("\\n", "\\r\\n", "\\r"):
                 eol = eol.encode("ascii").decode("unicode_escape")
@@ -218,7 +218,19 @@ class RevisionCliTests(unittest.TestCase):
             run = subprocess.run(command, capture_output=True, text=True)
             self.assertEqual(run.returncode, 1)
             self.assertIn("200000 characters", run.stderr)
+            self.assertIn("Comparison failed:", run.stderr)
             self.assertNotIn("Traceback", run.stderr)
+
+    def test_bad_input_still_uses_read_error_prefix(self):
+        with tempfile.TemporaryDirectory() as folder:
+            missing = Path(folder) / "nonexistent.md"
+            run = subprocess.run(
+                [sys.executable, str(SCRIPT), str(missing), "--mode", "procedure"],
+                capture_output=True, text=True,
+            )
+            self.assertEqual(run.returncode, 1)
+            self.assertIn("Cannot read input:", run.stderr)
+            self.assertNotIn("Comparison failed:", run.stderr)
 
     def test_blocks_requires_second_input(self):
         run = subprocess.run([sys.executable, str(SCRIPT), "unused.md", "--mode", "procedure", "--compare-method", "blocks"], capture_output=True, text=True)
@@ -232,6 +244,7 @@ class RevisionCliTests(unittest.TestCase):
             run = subprocess.run([sys.executable, "-S", str(SCRIPT), str(source), "--mode", "procedure", "--compare", str(source), "--compare-method", "blocks"], capture_output=True, text=True, env={"PATH": str(Path(sys.executable).parent)})
             self.assertEqual(run.returncode, 1)
             self.assertIn("requirements-comparison.txt", run.stderr)
+            self.assertIn("Comparison failed:", run.stderr)
             self.assertNotIn("Traceback", run.stderr)
 
 
