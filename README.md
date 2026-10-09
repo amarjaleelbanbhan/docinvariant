@@ -21,6 +21,8 @@ DocInvariant combines a deterministic Python CLI with an optional agent skill. I
 
 Requires **Python 3.10+**. No external Python dependencies and no network calls.
 
+New here? Follow the **[10-minute CLI walkthrough](docs/first-audit.md)** (before → after comparison of a meaning-changing edit).
+
 ```bash
 git clone https://github.com/amarjaleelbanbhan/docinvariant.git
 cd docinvariant
